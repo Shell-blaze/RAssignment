@@ -22,7 +22,9 @@ library(tidyverse)
 library(dplyr)
 library(DescTools)
 library(ggplot2)
+library(scales)
 
+#------------------------------------------------------------------------------------------#
 players_ds <- read.csv("R Assignment/players.csv")
 
 # Print the structure of your dataset
@@ -45,7 +47,8 @@ head(players_ds,15)
 #------------------------------------------------------------------------------------------#
 
 # Write a user defined function using any of the variables from the data set.
-# Function to return the no of players having market value greate than 10 million
+
+# Function to return the no of players having market value greater than 10 million
 player_count <- function (market_value, threshold){
   count <- 0
   for (mv in market_value){
@@ -76,7 +79,7 @@ head(filtered_players)
 players_ds_personal <- players_ds[, c("player_id", "first_name", "last_name", "country_of_birth")]
 players_ds_club <- players_ds[, c("player_id", "country_of_citizenship", "current_club_name", "current_club_domestic_competition_id")]
 
-#mergedataframe
+#merge dataframe
 players_ds_merged <- merge(players_ds_personal, players_ds_club, by = "player_id")
 
 head(players_ds_merged)
@@ -185,18 +188,17 @@ print(paste("The range of the market values is [", range_market_value[1], " - ",
 
 #Plot a scatter plot for any 2 variables in your dataset
 
-## Aggregate the data
-scatter_aggregated_data <- players_ds %>%
-  group_by(current_club_domestic_competition_id, position) %>%
-  summarise(player_count = n())
-
-ggplot(scatter_aggregated_data, aes(x = current_club_domestic_competition_id, y = player_count, colour =   position)) +
-  geom_point() +
-  labs(title = "Number of Players in Each Position in each Domestic Competition",
-       x = "Domestic Competition",
-       y = "Number of Players",
-       color = "Position")  +
+#Plot graph market value vs height 
+ggplot(players_ds, aes(x = height_in_cm, y = market_value_in_eur)) +
+  geom_point(color = "black", size = 1) +        # Points for players
+  labs(title = "Market Value vs. Height of Football Players",
+       x = "Height (cm)",
+       y = "Market Value (EUR)") +
+  scale_y_continuous(labels = label_number(scale_cut = cut_short_scale())) + # Format y-axis labels
+  theme_minimal() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+
 
 
 #------------------------------------------------------------------------------------------#
@@ -211,7 +213,11 @@ players_ds <- players_ds %>%
 aggregated_data <- players_ds %>%
   group_by(year_of_birth, position) %>%
   summarise(player_count = n())
+
+# Remove empty values
 aggregated_data<-na.omit(aggregated_data)
+
+#Plot the graph No of players vs Year of Birth
 ggplot(aggregated_data, aes(x = year_of_birth, y = player_count, fill = position)) +
   geom_bar(stat = "identity", position = "dodge") +
   labs(title = "Number of Players in Each Position by Year of Birth",

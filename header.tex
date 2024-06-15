@@ -1,0 +1,21 @@
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{hyperref}  % For hyperlinks
+
+\fancypagestyle{plain}{
+  \fancyhf{}  % Clear all header and footer fields
+  \fancyfoot[L]{\href{https://github.com/Shell-blaze/RAssignment/tree/master}{https://github.com/Shell-blaze/RAssignment/tree/master}}  % Left-aligned footer text with hyperlink
+  \fancyfoot[C]{}
+  \fancyfoot[R]{Page \thepage\ of \pageref{LastPage}}  % Right-aligned page number
+  \renewcommand{\headrulewidth}{0pt}
+  \renewcommand{\footrulewidth}{0.4pt}
+}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyfoot[L]{\href{https://github.com/Shell-blaze/RAssignment/tree/master}{https://github.com/Shell-blaze/RAssignment/tree/master}}  % Left-aligned footer text with hyperlink
+\fancyfoot[C]{}
+\fancyfoot[R]{Page \thepage\ of \pageref{LastPage}}  % Right-aligned page number
+
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0.4pt}
